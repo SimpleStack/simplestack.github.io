@@ -1,0 +1,21 @@
+style: is-light
+height: is-medium
+items:
+  - title: Based on Dapper.NET
+    subtitle: 
+    icon: fa-tachometer-alt
+    description: Fast Mapping
+    call_to_action_name: Dapper web site
+    call_to_action_link: https://github.com/StackExchange/Dapper
+  - title: Native support for multiple databases
+    icon: fa-database
+    description: SQLServer, MySQL/MariaDb, PostgreSQL, SQLite 
+  - title: Checkout code on github
+    subtitle: 
+    icon: fab fa-github
+#    description: >
+#      The example description text goes here and can be multiple lines.
+#
+#      For example, such as this.
+    call_to_action_name: Project on github
+    call_to_action_link: https://github.com/simplestack/simplestack.orm
