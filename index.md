@@ -10,9 +10,7 @@ callouts: home_callouts
 ---
 ## Introduction
 
-//Follow [@simplestackproj](http://twitter.com/simplestackproj) on twitter for updates.
-
-[SimpleStack.Orm](https://github.com/SimpleStack/simplestack.orm) is a layer on top of the wonderfull [Dapper](https://github.com/StackExchange/dapper-dot-net/) project that generate SQL queries based on Link queries. It is designed to persist POCO classes with a minimal amount of intrusion and configuration. All the generated sql queries are using parameters to improve performance and security.
+[SimpleStack.Orm](https://github.com/SimpleStack/simplestack.orm) is a layer on top of the wonderfull [Dapper](https://github.com/StackExchange/dapper-dot-net/) project that generate SQL queries based on lambda expressions. It is designed to persist POCO classes with a minimal amount of intrusion and configuration. All the generated sql queries are using parameters to improve performance and security.
 
 Main objectives:
 
@@ -265,22 +263,107 @@ db.DeleteAll<Person>(x => x.Age = 27);
 
 ### Available Attributes
 
-None of these attributes are mandatory.
+#### Query Attributes
 
-* Alias
-* Schema
-* PrimaryKey
-* AutoIncrement
-* ForeignKey
-* Index
-* Default
-* Ignore
-* Required
-* StringLength
-* DecimalLength
+##### AliasAttribute
+This attribute allow you to change the default naming of Tables or Columns used in the database.
+```csharp
+[Alias("TableName")]
+class Test
+{
+    [Alias("Id"]
+    public string TestId{get;set;}
+}
 
-### Table Creation - Retro-engeering
+db.Select<Test>(); // SELECT Id FROM TableName
+```
+
+##### IgnoreAttribute
+This attribute allow you to specify that a Property must be ignored during query generation.
+```csharp
+class Test
+{
+    public string TestId{get;set;}
+
+    [Ignored]
+    public int IgnoredProperty{get;set;}
+}
+
+db.Select<Test>(); // SELECT TestId FROM Test
+```
+
+##### ComputedAttribute
+This attribute allow you to specify an Sql Expression the compute the value of a Property.
+```csharp
+class Test
+{
+    public string TestId{get;set;}
+
+    [Computed("COALESCE(TestId, 'default')]
+    public string ComputedProperty{get;set;}
+}
+
+db.Select<Test>(); // SELECT TestId FROM Test
+```
+
+##### SchemaAttribute
+This attribute can be added on a class to specify the Schema name.
+```csharp
+[Schema("T22")]
+class Dog
+{
+    public string Name{get;set;}
+}
+
+db.Select<Dog>(); // SELECT Name FROM T22.Dog
+```
+
+#### Table Creation Attributes
+
+```csharp
+[Alias("SomeTableName")]
+class MyComplexType
+{
+    [PrimaryKey]
+    public string Id{get;set;}
+
+    [PrimaryKey]
+    public DateTime CreationDate{get;set;}
+
+    [Nullable]
+    public string Email{get;set;}
+
+    [ForeignKey(typeof(OtherClass))]
+    public int ForeignKey{get;set;}
+}
+
+db.Select<Dog>(); // SELECT Name FROM T22.Dog
+```
 
 
-### Supproted by JetBrains
-TODO
+
+##### PrimaryKeyAttribute
+The Primary Key attribute can be used to decorate one or multiple Properties of you Poco to specify the column to use as Primary Key.
+This attribute is used to identify your objects in methods Insert/Update/Delete and while creating tables.
+##### AutoIncrementAttribute
+Specify a property as auto incremented.
+##### ForeignKeyAttribute
+Specify a property as a ForeignKey
+##### IndexAttribute
+Specify a property as indexed
+##### DefaultAttribute
+Specify Default value for a column
+##### RequiredAttribute
+Specify is a Property is nullable (mainly used for string, Nullable<> type are automatically detected)
+##### StringLengthAttribute
+Specify the maximum size of string properties
+##### DecimalLengthAttribute
+Specify the Precision and Scale of numeric Properties
+
+### Table Creation
+
+### Retrieving Database Metadata
+
+### Dynamic Queries
+
+### Thanks

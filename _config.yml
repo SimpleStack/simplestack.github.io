@@ -15,7 +15,7 @@
 # in the templates via {{ site.myvariable }}.
 title: SimpleStack - Clean and Simple ORM
 email: info@simplestack.org
-gh_sponsor: vdaron
+#gh_sponsor: vdaron
 description: >- # this means to ignore newlines until "baseurl:"
   SimpleStack is a simple ORM for dotnet core based on Dapper project. Sql Query Generator
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -25,7 +25,7 @@ github_username:  vdaron
 
 # Build settings
 markdown: kramdown
-theme: bulma-clean-theme
+#theme: bulma-clean-theme
 remote_theme: chrisrhymes/bulma-clean-theme
 plugins:
   - jekyll-feed
