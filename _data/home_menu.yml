@@ -1,0 +1,21 @@
+- label: Documentation
+  link:
+  items: 
+    - name: Setup
+      link: /setup/
+    - name: Lambda Query Generation
+      items:
+        - name: Select
+          link: /select/
+        - name: Insert
+          link: /insert/
+        - name: Update
+          link: /update/
+        - name: Delete
+          link: /delete/
+    - name: Database Operations
+      items:
+        - name: Create/Drop Tables
+        - name: Retrieving Tables Structure
+    - name: Attributes Reference
+      link: /attributes

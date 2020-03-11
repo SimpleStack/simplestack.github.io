@@ -7,6 +7,8 @@ hero_title: Some hero title
 layout: page
 hero_image: /assets/background.jpg
 callouts: home_callouts
+show_sidebar: false
+menubar: home_menu
 ---
 ## Introduction
 
@@ -27,16 +29,20 @@ Effectively this allows you to create a table from any POCO type and it should p
 
 # Install
 
-```
+```nuget
 dotnet add package SimpleStack.Orm
 ```
 
-## Depending on the database you want to target:
+## Depending on the database you want to target and the license of your project:
 
-  - [Sql Server](https://www.nuget.org/packages/SimpleStack.Orm.SqlServer)
-  - [MySql](https://www.nuget.org/packages/SimpleStack.Orm.MySQL)
-  - [PostgreSQL](https://www.nuget.org/packages/SimpleStack.Orm.PostgreSQL)
-  - [Sqlite](https://www.nuget.org/packages/SimpleStack.Orm.Sqlite/)
+  - [SqlServer](https://www.nuget.org/packages/SimpleStack.Orm.SqlServer) (MIT licensed)
+  - [PostgreSQL](https://www.nuget.org/packages/SimpleStack.Orm.PostgreSQL) (MIT licensed)
+  - MySQL/MariaDB
+    - [MySql](https://www.nuget.org/packages/SimpleStack.Orm.MySQL) (Using [MySql.Data](https://www.nuget.org/packages/MySql.Data/) - GPL Licensed)
+    - [MySqlConnector](https://www.nuget.org/packages/SimpleStack.Orm.MySQLConnector) (Using [MySqlConnector](https://www.nuget.org/packages/MySqlConnector/) - MIT licensed)
+  - SQLite
+    - [Sqlite](https://www.nuget.org/packages/SimpleStack.Orm.Sqlite/) (Using [Microsoft.Data.SQLite](https://www.nuget.org/packages/Microsoft.Data.Sqlite/) - Apache2 license)
+    - [SDSqlite](https://www.nuget.org/packages/SimpleStack.Orm.SDSQLite) (Using [System.Data.SQLite](https://www.nuget.org/packages/System.Data.SQLite/) - Public domain)
 
 ### 2 minutes sample
 
@@ -46,36 +52,37 @@ using SimpleStack.Orm.SqlServer;
 
 namespace Test{
 
-   public class sample{
+    public class sample{
 
-      [Alias("dogs")]
-      public class Dog{
-         [PrimaryKey]
-         public int Id{get; set;}
-         public string Name{get; set;}
-	 [Alias("birth_date")]
-         public DateTime? BirthDate{get; set;}
-         public decimal Weight{get; set;}
-         public string Breed{get; set;}
-      }
+        [Alias("dogs")]
+        public class Dog{
+            [PrimaryKey]
+            public int Id{get; set;}
+            public string Name{get; set;}
+            
+            [Alias("birth_date")]
+            public DateTime? BirthDate{get; set;}
+            public decimal Weight{get; set;}
+            public string Breed{get; set;}
+        }
 
-      var factory = new OrmConnectionFactory(new SqlServerDialectProvider(), "server=...");
-      using (var conn = factory.OpenConnection())
-      {
-         conn.CreateTable<Dog>();
+        var factory = new OrmConnectionFactory(new SqlServerDialectProvider(), "server=...");
 
-         conn.Insert(new Dog{Name="Snoopy", BirthDate = new DateTime(1950,10,01), Weight=25.4});
-         conn.Insert(new Dog{Name="Rex", Weight=45.6});
-         conn.Insert(new Dog{Name="Rintintin", BirthDate = new DateTime(1918,09,13), Weight=2});
-
-         var rex = conn.First<Dog>(x => Id == 2);
-         rex.BirthDate = new DateTime(1994,11,10);
-
-         conn.Update(rex);
-
-         conn.Delete<Dog>(x => x.Name == "Rintintin");
-      }
-   }
+        using (var conn = factory.OpenConnection()){
+            conn.CreateTable<Dog>();
+            
+            conn.Insert(new Dog{Name="Snoopy", BirthDate = new DateTime(1950,10,01), Weight=25.4});
+            conn.Insert(new Dog{Name="Rex", Weight=45.6});
+            conn.Insert(new Dog{Name="Rintintin", BirthDate = new DateTime(1918,09,13), Weight=2});
+            
+            var rex = conn.First<Dog>(x => Id == 2);
+            rex.BirthDate = new DateTime(1994,11,10);
+            
+            conn.Update(rex);
+            
+            conn.Delete<Dog>(x => x.Name == "Rintintin");
+        }
+    }
 }
 ```
 
@@ -98,29 +105,28 @@ The DialectProvider contains all the specific code required for each database.
 
 ## WHERE clause generation using strong type LINQ queries
 
+Real queries uses parameters instead of direct values.
+
 ### Equals, Not equals, Bigger than, Less than, Contains,...
 
 ```csharp
-db.Select<Dog>(q => q.Name == "Rex"); // WHERE ("Name" = 'Rex')
-db.Select<Dog>(q => q.Name != "Rex"); // WHERE ("Name" <> 'Rex')
-db.Select<Dog>(q => q.Weight == 10); // WHERE ("Weight" = 10)
-db.Select<Dog>(q => q.Weight > 10); // WHERE ("Weight" > 10)
-db.Select<Dog>(q => q.Weight >= 10); // WHERE ("Weight" >= 10)
-db.Select<Dog>(q => q.Weight < 10); // WHERE ("Weight" < 10)
-db.Select<Dog>(q => q.Weight <= 10); // WHERE ("Weight" <= 10)
-db.Select<Dog>(q => q.Name.Contains("R")); // WHERE ("Name" LIKE("%R%"))
+db.Select<Dog>(q => q.Name == "Rex");       // WHERE ("Name" = 'Rex')
+db.Select<Dog>(q => q.Name != "Rex");       // WHERE ("Name" <> 'Rex')
+db.Select<Dog>(q => q.Weight == 10);        // WHERE ("Weight" = 10)
+db.Select<Dog>(q => q.Weight > 10);         // WHERE ("Weight" > 10)
+db.Select<Dog>(q => q.Weight >= 10);        // WHERE ("Weight" >= 10)
+db.Select<Dog>(q => q.Weight < 10);         // WHERE ("Weight" < 10)
+db.Select<Dog>(q => q.Weight <= 10);        // WHERE ("Weight" <= 10)
+db.Select<Dog>(q => q.Name.Contains("R"));  // WHERE ("Name" LIKE("%R%"))
 db.Select<Dog>(q => q.Name.StartWith("R")); // WHERE ("Name" LIKE("R%"))
-db.Select<Dog>(q => q.Name.EndWidth("R")); // WHERE ("Name" LIKE("%R"))
-
+db.Select<Dog>(q => q.Name.EndWidth("R"));  // WHERE ("Name" LIKE("%R"))
 ```
 
 ### Combine criterias with AND or OR
 
 ```csharp
-// WHERE ("Name" LIKE 'R' OR "Weight" > 10)
-db.Select<Dog>(q => q.Name.Contains("R") || q.Weight > 10);
-// WHERE ("Name" LIKE 'R' AND "Weight" > 10)
-db.Select<Dog>(q => q.Name.Contains("R") && q.Weight > 10);
+db.Select<Dog>(q => q.Name.Contains("R") || q.Weight > 10); // WHERE ("Name" LIKE 'R' OR "Weight" > 10)
+db.Select<Dog>(q => q.Name.Contains("R") && q.Weight > 10); // WHERE ("Name" LIKE 'R' AND "Weight" > 10)
 ```
 
 ### Sql class
@@ -128,8 +134,8 @@ db.Select<Dog>(q => q.Name.Contains("R") && q.Weight > 10);
 #### IN Criteria
 
 ```csharp
-// WHERE "Breed" In ('Beagle', 'Border Collie', 'Golden Retriever')
-db.Select<Dog>(q => Sql.In(q.Breed, "Beagle", "Border Collie", "Golden Retriever"));
+string[] breeds = new {"Beagle", "Border Collie", "Golden Retriever"};
+db.Select<Dog>(q => breeds.Contains(g.Breed));  // WHERE "Breed" In ('Beagle', 'Border Collie', 'Golden Retriever')
 ```
 
 #### Date part methods

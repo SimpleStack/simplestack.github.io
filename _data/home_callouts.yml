@@ -9,7 +9,9 @@ items:
     call_to_action_link: https://github.com/StackExchange/Dapper
   - title: Native support for multiple databases
     icon: fa-database
-    description: SQLServer, MySQL/MariaDb, PostgreSQL, SQLite 
+    description: > 
+       SQLServer, MySQL/MariaDb, 
+       PostgreSQL, SQLite and more to come
   - title: Checkout code on github
     subtitle: 
     icon: fab fa-github
