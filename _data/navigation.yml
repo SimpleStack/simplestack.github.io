@@ -1,5 +1,7 @@
 #- name: Twitter
 #  link: https://twitter.com/simplestackproj
 #  icon: fa-smile-wink
-#- name: Github
-#  link: https://github.com/simplestack/simplestack.orm
+- name: Install
+  link: /setup/sqlserver
+- name: Github
+  link: https://github.com/simplestack/simplestack.orm
