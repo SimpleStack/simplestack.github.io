@@ -21,14 +21,17 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://simplestack.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: simplestack
-# github_username:  vdaron
+github_username:  vdaron
 google_analytics: UA-160295324-1
+footer_menu: footer
 # Build settings
 markdown: kramdown
 #theme: bulma-clean-theme
 remote_theme: chrisrhymes/bulma-clean-theme
+twitter: simplestackproj
 plugins:
   - jekyll-feed
+permalink: pretty
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

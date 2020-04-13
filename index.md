@@ -8,11 +8,11 @@ layout: page
 hero_image: /assets/background.jpg
 callouts: home_callouts
 show_sidebar: false
-#menubar: home_menu
+menubar: home_menu
 ---
 ## Introduction
 
-[SimpleStack.Orm](https://github.com/SimpleStack/simplestack.orm) is a layer on top of the wonderfull [Dapper](https://github.com/StackExchange/dapper-dot-net/) project that generate SQL queries based on lambda expressions. It is designed to persist POCO classes with a minimal amount of intrusion and configuration. All the generated sql queries are using parameters to improve performance and security.
+[SimpleStack.Orm](https://github.com/SimpleStack/simplestack.orm) is a layer on top of the wonderful [Dapper](https://github.com/StackExchange/dapper-dot-net/) project that generate SQL queries based on lambda expressions. It is designed to persist POCO classes with a minimal amount of intrusion and configuration. All the generated sql queries are using parameters to improve performance and security.
 
 Main objectives:
 
@@ -25,7 +25,7 @@ Main objectives:
 
 In SimpleStak.Orm : **1 Class = 1 Table**. There should be no surprising or hidden behaviour.
 
-Effectively this allows you to create a table from any POCO type and it should persist as expected in a DB Table with columns for each of the classes 1st level public properties. Some [attributes](#Available Attributes) can be added on your class to tune the way the queries are generated (Alias, Schema, PrimaryKey, Index,...)
+Effectively this allows you to create a table from any POCO type and it should persist as expected in a DB Table with columns for each of the classes 1st level public properties. [Attributes](/attributes) can be added on your class to tune the way the queries are generated (Alias, Schema, PrimaryKey, Index,...)
 
 ### Sample usage
 
@@ -39,10 +39,11 @@ namespace Test{
 
       [Alias("dogs")]
       public class Dog{
-         [PrimaryKey]
+         [PrimaryKey()]
+         [AutoIncrement()]
          public int Id{get; set;}
          public string Name{get; set;}
-	 [Alias("birth_date")]
+         [Alias("birth_date")]
          public DateTime? BirthDate{get; set;}
          public decimal Weight{get; set;}
          public string Breed{get; set;}
@@ -53,16 +54,41 @@ namespace Test{
       {
          conn.CreateTable<Dog>();
 
+         // INSERT INTO "dogs" ("Id", "Name", "birth_date", "Weight", "Breed" ) VALUES (@p_0, @p_1, @p_2, @p_3, @p_4)
          conn.Insert(new Dog{Name="Snoopy", BirthDate = new DateTime(1950,10,01), Weight=25.4});
          conn.Insert(new Dog{Name="Rex", Weight=45.6});
-         conn.Insert(new Dog{Name="Rintintin", BirthDate = new DateTime(1918,09,13), Weight=2});
+         conn.Insert(new Dog{Name="Popol", BirthDate = new DateTime(1918,09,13), Weight=2});
 
+         // SELECT "Id", "Name", "birth_date" AS BirthDate, "Weight", "Breed"
+         // FROM "dogs"
+         // WHERE ("Id" = @p_0)
+         // ORDER BY 1 -- ORDER BY is mandatory to use OFFSET and FETCH clause in SQLServer
+         // OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY
          var rex = conn.First<Dog>(x => Id == 2);
+
          rex.BirthDate = new DateTime(1994,11,10);
 
+         // UPDATE "dogs" SET "Name"=@p_0, "birth_date"=@p_1, "Weight"=@p_2, "Breed"=@p_3 WHERE "Id"=@p_4
          conn.Update(rex);
 
-         conn.Delete<Dog>(x => x.Name == "Rintintin");
+         // DELETE FROM "dogs" WHERE ("Name" = @p_0)
+         conn.DeleteAll<Dog>(x => x.Name == "Popol");
+
+         // SELECT "Name", "Breed", "Weight"
+         // FROM "dogsbackup"
+         // WHERE (DATEPART(year,"birth_date") = @p_0) --will be specific depending on database
+         // ORDER BY "Breed" ASC,"Weight" DESC
+         conn.Select<Dog>(x => {
+             x.From("dogsbackup");                         // Change From clause
+             x.Select(y => new {y.Name,y.Breed,y.Weight}); // Only return some fields
+             x.Where(y => y.BirthDate.Value.Year == 2019);
+             x.OrderBy(y => y.Breed)
+              .ThenByDescending(y => y.Weight);
+         });
+
+         // SELECT AVG(Weight) AS Weight
+         // FROM "dogs"
+         conn.GetScalar<Dog, decimal>(x => Sql.Avg(x.Weight))
       }
    }
 }

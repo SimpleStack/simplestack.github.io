@@ -1,0 +1,8 @@
+alignment: is-centered
+style: is-boxed is-fullwidth
+size: is-medium
+items:
+  - name: Asynchronous
+    link: /query/select_async.html
+  - name: Synchronous
+    link: /query/select_sync.html

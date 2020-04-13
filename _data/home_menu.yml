@@ -1,21 +1,27 @@
 - label: Documentation
-  link:
-  items: 
+  link: /index
+  items:
+    - name: Home
+      link: /
     - name: Setup
-      link: /setup/
-    - name: Lambda Query Generation
+      link: /setup/sqlserver
+    - name: Query Generation
+      link: /query/select_async
       items:
         - name: Select
-          link: /select/
-        - name: Insert
-          link: /insert/
-        - name: Update
-          link: /update/
-        - name: Delete
-          link: /delete/
-    - name: Database Operations
-      items:
-        - name: Create/Drop Tables
-        - name: Retrieving Tables Structure
+          link: /query/select_async
+        - name: Insert / Update / Delete
+          link: /query/insert_update_delete
+#    - name: Database Operations
+#      items:
+#        - name: Create/Drop Tables
+#        - name: Retrieving Tables Structure
     - name: Attributes Reference
       link: /attributes
+- label: About
+  link: /index
+  items:
+    - name: Issues Tracker
+      link: https://github.com/SimpleStack/simplestack.orm/issues
+    - name: Contributors
+      link: /contributors.html

@@ -1,0 +1,7 @@
+- name: Twitter
+  link: https://twitter.com/simplestackproj
+  icon: fa-twitter
+- name: License
+  link: https://raw.githubusercontent.com/SimpleStack/simplestack.orm/develop/LICENSE
+- name: Github
+  link: https://github.com/simplestack/simplestack.orm

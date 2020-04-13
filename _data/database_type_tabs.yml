@@ -1,0 +1,16 @@
+alignment: is-left
+style: is-boxed is-fullwidth
+size: is-medium
+items:
+  - name: SQLServer
+    link: /setup/sqlserver.html
+#    icon: fa-sqlserver
+  - name: PostgreSQL
+    link: /setup/postgresql.html
+#    icon: fa-postgres
+  - name: MariaDB / MySQL
+    link: /setup/mariadb.html
+#    icon: fa-mariadb
+  - name: SQLite
+    link: /setup/sqlite.html
+#    icon: fa-sqlite
