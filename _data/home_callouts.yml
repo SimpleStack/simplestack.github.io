@@ -14,10 +14,9 @@ items:
        PostgreSQL, SQLite and more to come
   - title: Checkout code on github
     subtitle: 
-    icon: fab fa-github
-#    description: >
-#      The example description text goes here and can be multiple lines.
-#
-#      For example, such as this.
+    icon: fa-github
+    icon_brand: true
+    description: >
+       See code, Log issues, Send pull requests
     call_to_action_name: Project on github
     call_to_action_link: https://github.com/simplestack/simplestack.orm
