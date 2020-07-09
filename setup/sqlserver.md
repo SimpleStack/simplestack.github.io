@@ -8,7 +8,7 @@ menubar: home_menu
 tabs: database_type_tabs
 ---
 ![sqlserver](/assets/sqlserver.png){:style="float:right"}
-SQLServer Dialect is based on [System.Data.SqlClient](https://www.nuget.org/packages/System.Data.SqlClient)
+SQLServer Dialect is based on the new [Microsoft.Data.SqlClient](https://www.nuget.org/packages/Microsoft.Data.SqlClient)
 # Add packages in your project
 ```nuget
 dotnet add package SimpleStack.Orm
