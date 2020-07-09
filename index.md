@@ -12,20 +12,21 @@ menubar: home_menu
 ---
 ## Introduction
 
-[SimpleStack.Orm](https://github.com/SimpleStack/simplestack.orm) is a layer on top of the wonderful [Dapper](https://github.com/StackExchange/dapper-dot-net/) project that generate SQL queries based on lambda expressions. It is designed to persist POCO classes with a minimal amount of intrusion and configuration. All the generated sql queries are using parameters to improve performance and security.
+[SimpleStack.Orm](https://github.com/SimpleStack/simplestack.orm) is a layer on top of the wonderful [Dapper](https://github.com/StackExchange/dapper-dot-net/) project that generate SQL queries based on lambda expressions. It is designed to persist types with a minimal amount of intrusion and configuration. All the generated sql queries are using parameters to improve performance and security.  
+  
+By using Dynamic queries it is also possible to generate queries without a corresponding Type, see [Dynamic Queries](/query/select_async_dyn) for more information.  
+  
+#### Main goals:  
 
-Main objectives:
-
-  * Map a POCO class 1:1 to an RDBMS table.
-  * Create/Drop DB Table schemas using nothing but POCO class definitions (IOTW a true code-first ORM)
-  * Simplicity - typed, wrist friendly API for common data access patterns.
-  * Fully parameterized queries
-  * Cross platform - supports multiple dbs (currently: Sql Server, Sqlite, MySql, PostgreSQL) running on both .NET, .Net Core and Mono platforms.
-  * Support connections on multiple databases from the same application
-
-In SimpleStak.Orm : **1 Class = 1 Table**. There should be no surprising or hidden behaviour.
-
-Effectively this allows you to create a table from any POCO type and it should persist as expected in a DB Table with columns for each of the classes 1st level public properties. [Attributes](/attributes) can be added on your class to tune the way the queries are generated (Alias, Schema, PrimaryKey, Index,...)
+* Map a Type 1:1 to an RDBMS table or view.
+* Create/Drop DB Table schemas using nothing but a Type. (IOTW a true code-first ORM)  
+* Simplicity - typed, wrist friendly API for common data access patterns.  
+* Full use of query parameters.  
+* Supports multiple databases. Currently: Sql Server, Sqlite, MySql, PostgreSQL)  
+* Cross Platform, based on netstandard 2.0.  
+* Support connections on multiple databases from the same application  
+  
+In SimpleStak.Orm : **1 Class = 1 Table/View**. There are no surprising or hidden behavior.  [Attributes](/attributes) may be added on your Type to tune the queries generation (Alias, Schema, PrimaryKey, Index,...)
 
 ### Sample usage
 

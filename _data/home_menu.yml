@@ -8,8 +8,10 @@
     - name: Query Generation
       link: /query/select_async
       items:
-        - name: Select
+        - name: Select Typed
           link: /query/select_async
+        - name: Select Dynamic
+          link: /query/select_async_dyn
         - name: Insert / Update / Delete
           link: /query/insert_update_delete
 #    - name: Database Operations
