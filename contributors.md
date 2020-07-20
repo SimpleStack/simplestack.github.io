@@ -15,5 +15,7 @@ menubar: home_menu
 * [schulz3000](https://github.com/schulz3000)
 * [Galimage](https://github.com/Galimage)
 * [AndreAlbertto](https://github.com/AndreAlbertto)
+* [bgrainger](https://github.com/bgrainger)
+* [rMabrou](https://github.com/rMabrou)
 
 and [dFakto.com](http://dfakto.com)

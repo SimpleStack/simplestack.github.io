@@ -2,7 +2,7 @@
 # Feel free to add content and custom Front Matter to this file.
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
-title: SimpleStack - A Query generator for Dapper
+title: SimpleStack - Simple and efficient ORM 
 hero_title: Some hero title
 layout: page
 hero_image: /assets/background.jpg
@@ -12,8 +12,8 @@ menubar: home_menu
 ---
 ## Introduction
 
-[SimpleStack.Orm](https://github.com/SimpleStack/simplestack.orm) is a layer on top of the wonderful [Dapper](https://github.com/StackExchange/dapper-dot-net/) project that generate SQL queries based on lambda expressions. It is designed to persist types with a minimal amount of intrusion and configuration. All the generated sql queries are using parameters to improve performance and security.  
-  
+[SimpleStack.Orm](https://github.com/SimpleStack/simplestack.orm) is an [Object Relational Mapper](https://en.wikipedia.org/wiki/Object-relational_mapping) based on the [Dapper](https://github.com/StackExchange/dapper-dot-net/) project. SimpleStack.Orm generate database specific SQL queries based on lambda expressions and pass the generated queries to Dapper for effective mapping. It is designed to persist types with a minimal amount of intrusion and configuration. All the generated SQL queries are using parameters to improve performance and security.
+
 By using Dynamic queries it is also possible to generate queries without a corresponding Type, see [Dynamic Queries](/query/select_async_dyn) for more information.  
   
 #### Main goals:  
