@@ -9,41 +9,41 @@ menubar: home_menu
 
 # Class Attributes
 ## Alias
-This attribute allow you to use a different name for the table than the class name.
+This attribute allows you to use a different name for the table than the class name.
 ## Schema
 This attribute can be added on a class to specify the Schema name.
 
 # Properties Attributes
 ## Alias
-This attribute allow you to use a different name than the class name for the table.
+This attribute allows you to use a different name than the property name for the table field.
 ## Ignore
-This attribute allow you to specify that a Property must be ignored during query generation.
+This attribute allows you to specify that a Property must be ignored during query generation.
 ## Compute
-This attribute allow you to specify an Sql Expression the compute the value of a Property.
-## PrimaryKeyAttribute
-The Primary Key attribute can be used to decorate one or multiple Properties of you Type to specify the column(s) to use as Primary Key.
+This attribute allows you to specify an Sql Expression which computes the value of a Property.
+## PrimaryKey
+The Primary Key attribute can be used to decorate one or multiple Properties of your choice to specify the column(s) to use as Primary Key.
 This attribute is used to identify your objects in methods Insert/Update/Delete.
-## AutoIncrementAttribute
-Specify a property as auto incremented.
-## ForeignKeyAttribute
-Specify a property as a ForeignKey.
-## IndexAttribute
-Specify a property as indexed. 
-## DefaultAttribute
-Specify Default value for a column.
-## RequiredAttribute
-Specify is a Property is nullable (mainly used for string, Nullable<> type are automatically detected)
-## StringLengthAttribute
-Specify the maximum size of string properties. If omitted the default length (255) will be applied.
+## AutoIncrement
+Specifies a property as auto incremented.
+## ForeignKey
+Specifies a property as a ForeignKey.
+## Index
+Specifies a property as indexed. 
+## Default
+Specifies the default value for a column.
+## Required
+Specifies whether a Property is nullable (mainly used for strings, because Nullable<> types are automatically detected)
+## StringLength
+Specifies the maximum size of string properties. If omitted the default length (255) will be applied.
 
-The default length can be changed on the DialectProvider
+The default length can be changed in the DialectProvider
 ```csharp
 _connectionFactory.DialectProvider.TypesMapper.DefaultStringLength = 1000;
 ``` 
-## DecimalLengthAttribute
-Specify the Precision and Scale of numeric Properties. If omitted, the default precision (38) and scale (6) will be applied
+## DecimalLength
+Specifies the Precision and Scale of numeric Properties. If omitted, the default precision (38) and scale (6) will be applied
 
-The default precision and scale can be changed on the DialectProvider
+The default precision and scale can be changed in the DialectProvider
 ```csharp
 _connectionFactory.DialectProvider.TypesMapper.DefaultPrecision = 8;
 _connectionFactory.DialectProvider.TypesMapper.DefaultScale = 4;
