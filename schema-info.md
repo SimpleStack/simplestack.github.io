@@ -15,17 +15,19 @@ var tables = await conn.GetTablesAsync();
 var tables = await conn.GetTablesAsync(schemaName:"myschema");
 var tables = await conn.GetTablesAsync(schemaName:"myschema", includeViews:true);
 
-
-
+public interface ITableDefinition
+{
+	string Name { get; }
+	string SchemaName { get; }
+}
 ```
 
 Retrieving table or view columns
 ```csharp
 var columns = await conn.GetTableColumnsAsync("mytable");
-var columns = await conn.GetTablesAsync(schemaName:"myschema");
-var columns = await conn.GetTablesAsync(schemaName:"myschema", includeViews:true);
+var columns = await conn.GetTableColumnsAsync("mytable", schemaName:"myschema");
 
-interface IColumnDefinition
+public interface IColumnDefinition
 {
     string Name { get; }
     bool Nullable { get; }
@@ -41,6 +43,15 @@ interface IColumnDefinition
 ```
 
 # Updating Database Schema
-```csharp
 
+Various helper methods are available to create/drop tables or schemas. Strongly typed can be decorated using [Attributes](/attributes)
+```csharp
+var exists = await TableExistsAsync<Person>();
+var exists = await TableExistsAsync("mytable", "myschema");
+await CreateTableAsync<Person>(dropIfExists:true);
+await CreateTableIfNotExistsAsync<Person>();
+await DropTableIfExistsAsync<Person>();
+
+await CreateSchemaAsync("myschema");
+await CreateSchemaIfNotExistsAsync("myschema");
 ```
