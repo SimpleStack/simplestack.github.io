@@ -25,20 +25,35 @@ Queries output are given for information only.
 ### Equals, Not equals, Bigger than, Less than, Like, is Null...
 
 ```csharp
-db.SelectAsync<Dog>(q => q.Name == "Rex");       // WHERE ("Name" = 'Rex')
+db.SelectAsync<Dog>(q => q.Name == "Rex");       // WHERE ("Name" = @p_1)
 db.SelectAsync<Dog>(q => q.Name != "Rex");       // WHERE ("Name" <> 'Rex')
 db.SelectAsync<Dog>(q => q.Weight == 10);        // WHERE ("Weight" = 10)
 db.SelectAsync<Dog>(q => q.Weight > 10);         // WHERE ("Weight" > 10)
 db.SelectAsync<Dog>(q => q.Weight >= 10);        // WHERE ("Weight" >= 10)
 db.SelectAsync<Dog>(q => q.Weight < 10);         // WHERE ("Weight" < 10)
 db.SelectAsync<Dog>(q => q.Weight <= 10);        // WHERE ("Weight" <= 10)
-db.SelectAsync<Dog>(q => q.Name.Contains("R"));  // WHERE ("Name" LIKE("%R%"))
-db.SelectAsync<Dog>(q => q.Name.StartWith("R")); // WHERE ("Name" LIKE("R%"))
-db.SelectAsync<Dog>(q => q.Name.EndWidth("R"));  // WHERE ("Name" LIKE("%R"))
 db.SelectAsync<Dog>(q => q.Name != null);        // WHERE ("Name" IS NOT NULL)
+```
+
+### Support for String, DateTime and nullable Types
+```csharp
 db.SelectAsync<Dog>(q => q.BirthDate.HasValue);  // WHERE ("BirthDate" IS NOT NULL)
 db.SelectAsync<Dog>(q => !q.BirthDate.HasValue); // WHERE ("BirthDate" IS NULL)
 db.SelectAsync<Dog>(q => q.BirthDate.Month = 10) // WHERE (MONTH("BirthDate") = 10)
+db.SelectAsync<Dog>(q => q.Name.Length = 5)      // WHERE (LEN("Name") = 5)
+db.SelectAsync<Dog>(q => q.Name.ToUpper() = "PUPPY") // WHERE (UPPER("Name") = "PUPPY")
+db.SelectAsync<Dog>(q => q.Name.ToLower() = "puppy") // WHERE (LOWER("Name") = "puppy")
+db.SelectAsync<Dog>(q => q.Name.SubString(0,2) = "pu") // WHERE (SUBSTR("Name",1,2) = "pu")
+db.SelectAsync<Dog>(q => q.Name.Trim() = "PUPPY") // WHERE (TRIM("Name") = "PUPPY")
+db.SelectAsync<Dog>(q => q.Name.TrimStart() = "PUPPY") // WHERE (LTRIM("Name") = "PUPPY")
+db.SelectAsync<Dog>(q => q.Name.TrimEnd() = "PUPPY") // WHERE (RTRIM("Name") = "PUPPY")
+db.SelectAsync<Dog>(q => q.Name.Contains("R"));  // WHERE ("Name" LIKE("%R%"))
+db.SelectAsync<Dog>(q => q.Name.StartWith("R")); // WHERE ("Name" LIKE("R%"))
+db.SelectAsync<Dog>(q => q.Name.EndWidth("R"));  // WHERE ("Name" LIKE("%R"))
+
+// Call can be conbined:
+db.SelectAsync<Dog>(q => q.Name.TrimStart().ToLower().Substring(0,3).StartWith("def"));
+//WHERE (substr(lower(ltrim(`StringColumn`)),1,3) = 'def')
 ```
 
 ### AND or OR
