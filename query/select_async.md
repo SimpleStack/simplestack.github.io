@@ -101,7 +101,7 @@ db.Select<Dog>(x => {
 conn.GetScalar<Dog, DateTime>(x => Sql.Max(x.BirthDate));
 // SELECT AVG("Weight") FROM DOG
 conn.GetScalar<Dog, decimal>(x => Sql.Avg(x.Weight));
-// SELECT  FROM DOG 
+// SELECT AVG(Age) as Age, Breed FROM DOG 
 //    WHERE Name LIKE '%A%'
 //    GROUP BY Breed
 conn.Select<Dog>(x => {
