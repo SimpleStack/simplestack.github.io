@@ -60,7 +60,7 @@ db.SelectAsync<Dog>(q => q.Name.StartWith("R"));       // WHERE ("Name" LIKE("R%
 db.SelectAsync<Dog>(q => q.Name.EndWidth("R"));        // WHERE ("Name" LIKE("%R"))
 
 // Call can be combined:
-db.SelectAsync<Dog>(q => q.Name.TrimStart().ToLower().Substring(0,3).StartWith("def"));
+db.SelectAsync<Dog>(q => q.Name.TrimStart().ToLower().Substring(0,3) == "def");
 //WHERE (substr(lower(ltrim(`Name`)),1,3) = 'def')
 ```
 
