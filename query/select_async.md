@@ -133,15 +133,6 @@ db.Select<Dog>(q => breeds.Contains(g.Breed));
 
 ## Sql helper class 
 
-### Date part methods
-Use the date function (specific for each database)
-```csharp
-// SELECT YEAR("BirthDate") FROM DOG
-conn.GetScalar<Dog, int>(x => Sql.Year(x.BirthDate))
-// SELECT "Id","Name","Breed","DareBirth","Weight" FROM DOG WHERE MONTH("BirthDate") = 10
-conn.Select<Dog>(x => Sql.Month(x.BirthDate) = 10)
-```
-
 ### Aggregation function
 
 ```csharp
