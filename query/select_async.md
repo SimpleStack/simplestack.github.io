@@ -114,7 +114,19 @@ conn.Select<Dog>(x => {
 // SELECT * FROM Dogs ORDER BY Breed
 db.Select<Dog>(x => {
     x.OrderBy(y => y.Breed);
-}); 
+});
+// SELECT * FROM Dogs ORDER BY Breed DESC
+db.Select<Dog>(x => {
+    x.OrderByDescending(y => y.Breed);
+});
+// SELECT * FROM Dogs ORDER BY Breed, Name
+db.Select<Dog>(x => {
+    x.OrderBy(y => y.Breed).ThenBy(y => y.Name);
+});
+// SELECT * FROM Dogs ORDER BY Breed ASC, Name DESC
+db.Select<Dog>(x => {
+    x.OrderBy(y => y.Breed).ThenByDescending(y => y.Name);
+});
 ```
 ## Limits
 ```csharp
